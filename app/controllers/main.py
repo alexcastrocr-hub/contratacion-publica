@@ -1,10 +1,44 @@
 """Blueprint base con rutas principales."""
-from flask import Blueprint, render_template, request, jsonify, send_file
+from flask import Blueprint, render_template, request, jsonify, send_file, session, redirect, url_for
+import os
 import io
 
 from app.services.agente_ia import analizar_licitacion_json, analizar_licitacion
 
 bp_main = Blueprint("main", __name__)
+
+
+@bp_main.before_request
+def requerir_autenticacion():
+    """Regla de acceso: todas las rutas exigen sesión, excepto /login, /salir y estáticos."""
+    rutas_libres = ["main.login", "main.salir", "static"]
+    if request.endpoint and not any(request.endpoint.startswith(r) for r in rutas_libres):
+        if "usuario" not in session:
+            return redirect(url_for("main.login"))
+
+
+@bp_main.route("/login", methods=["GET", "POST"])
+def login():
+    """Pantalla de inicio de sesión."""
+    error = None
+    if request.method == "POST":
+        usuario = request.form.get("usuario", "")
+        clave = request.form.get("clave", "")
+        usuario_valido = os.environ.get("APP_USUARIO", "")
+        clave_valida = os.environ.get("APP_CLAVE", "")
+        if usuario == usuario_valido and clave == clave_valida:
+            session["usuario"] = usuario
+            return redirect(url_for("main.inicio"))
+        else:
+            error = "Usuario o contraseña incorrectos"
+    return render_template("login.html", error=error)
+
+
+@bp_main.route("/salir")
+def salir():
+    """Cerrar sesión y redirigir al login."""
+    session.pop("usuario", None)
+    return redirect(url_for("main.login"))
 
 
 @bp_main.route("/")

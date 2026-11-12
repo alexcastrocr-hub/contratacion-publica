@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio de Sesión - Analista de Licitaciones{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+    .login-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 40px;
+    }
+    .login-card h2 {
+        color: #1a3a5c;
+        margin-bottom: 25px;
+        font-size: 1.5rem;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #333;
+    }
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+    input[type="text"]:focus, input[type="password"]:focus {
+        outline: none;
+        border-color: #1a3a5c;
+    }
+    .btn-login {
+        background: #1a3a5c;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .btn-login:hover {
+        background: #142e4a;
+    }
+    .error-msg {
+        background: #f8d7da;
+        border: 1px solid #f5c2c7;
+        color: #721c24;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <h2>Iniciar Sesión</h2>
+
+        {% if error %}
+        <div class="error-msg">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" name="clave" required>
+            </div>
+            <button type="submit" class="btn-login">Ingresar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
