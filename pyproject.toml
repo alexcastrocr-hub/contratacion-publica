@@ -1,0 +1,19 @@
+[project]
+name = "analista-licitaciones"
+version = "0.1.0"
+description = "Analista Virtual de Contratación Pública - Costa Rica (SICOP, BCCR)"
+requires-python = ">=3.9"
+dependencies = [
+    "flask>=3.0.0",
+    "python-dotenv>=1.0.0",
+    "python-docx>=1.2.0",
+    "waitress>=2.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.uv]
+exclude-newer = "2026-01-01"

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle - {{ campo }} - Analista de Licitaciones{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detalle-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .detalle-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 20px;
+    }
+    .detalle-campo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a3a5c;
+        margin-bottom: 10px;
+        word-break: break-all;
+    }
+    .detalle-valor {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        font-size: 1.1rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        min-height: 100px;
+    }
+    .detalle-valor.no-indica {
+        color: #6c757d;
+        font-style: italic;
+    }
+    .btn-volver {
+        background: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+    .btn-volver:hover {
+        background: #545b62;
+    }
+    .badge-encontrado {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    .badge-si {
+        background: #d4edda;
+        color: #155724;
+    }
+    .badge-no {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detalle-container">
+    <a href="/resultados" class="btn-volver">← Volver a Resultados</a>
+
+    <div class="detalle-card">
+        <span class="badge {% if encontrado %}badge-si{% else %}badge-no{% endif %}">
+            {% if encontrado %}Campo encontrado{% else %}Campo no encontrado{% endif %}
+        </span>
+
+        <div class="detalle-campo">{{ campo }}</div>
+
+        <div class="detalle-valor {% if not encontrado or valor == 'No indica' or valor is none %}no-indica{% endif %}">
+            {% if valor is none or valor == 'No indica' or valor == '' %}
+                No indica
+            {% elif valor is boolean %}
+                {% if valor %}Sí{% else %}No{% endif %}
+            {% else %}
+                {{ valor }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
